@@ -1,6 +1,9 @@
 # Open Neovim config
 alias nvimconfig='cd ~/.config/nvim/ && nvim .'
 
+alias cr="cargo run"
+alias ct="cargo test"
+
 # ssh into UT lab computers
 alias utcs1="ssh nathanb@hayek.cs.utexas.edu"
 alias utcs2="ssh nathanb@descartes.cs.utexas.edu"
@@ -29,31 +32,14 @@ function cdf() {
   if [[ $# -eq 1 ]]; then
       selected=$1
   else
-      selected=$(find ~/Code ~/Code/archive -mindepth 1 -maxdepth 1 -type d | fzf)
+      selected=$(find ~/Code ~/Code/archive ~/Notes -mindepth 1 -maxdepth 1 -type d | fzf)
   fi
 
   if [[ -z $selected ]]; then
       return
   fi
 
-  cd "$selected" && nvim .
-}
-
-# Run frequently used commands
-function runc() {
-  if [[ $1 == "open" ]]; then
-      nvim ./.commands.txt
-  else
-      selected=$(cat ./.commands.txt | fzf)
-
-      if [[ -z $selected ]]; then
-          return
-      fi
-
-      echo "$selected\n"
-      eval "$selected"
-  fi
-
+  cd "$selected"
 }
 
 # Makes shell beautiful
@@ -76,4 +62,6 @@ else
 fi
 unset __conda_setup
 # <<< conda initialize <<<
-
+#
+export PATH="$PATH:/usr/local/bin/code"
+export PATH="$PATH:/Applications/Visual Studio Code.app/Contents/Resources/app/bin"
