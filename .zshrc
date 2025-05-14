@@ -2,6 +2,16 @@
 alias utcs1="ssh nathanb@hayek.cs.utexas.edu"
 alias utcs2="ssh nathanb@descartes.cs.utexas.edu"
 
+# New daily note
+function daily() {
+    cd ~/Notes/daily
+    if [ ! -e "$(date +"%Y-%m-%d").md" ]; then
+        echo "# $(date +"%Y-%m-%d")" > "$(date +"%Y-%m-%d").md"
+        echo "File created successfully."
+    fi
+    nvim "$(date +"%Y-%m-%d").md"
+}
+
 # Open jupyter notebook shortcut
 function nb() {
     local file="${1%.ipynb}.ipynb"
