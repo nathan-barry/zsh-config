@@ -22,10 +22,11 @@ function nb() {
     fi
 
     if [[ ! -f "$file" ]]; then
-        python -c "import json; data = {'cells': [], 'metadata': {}, 'nbformat': 4, 'nbformat_minor': 4}; open('$file', 'w').write(json.dumps(data))"
+        echo '{"cells":[],"metadata":{},"nbformat":4,"nbformat_minor":4}' > "$file"
     fi
 
-    jupyter notebook "$file"
+    # Run with uv since it is superior
+    uv run --with jupyter jupyter lab "$file"
 }
 
 # Open project
@@ -52,3 +53,5 @@ neofetch
 # Path stuff
 export PATH="$PATH:/usr/local/bin/code"
 export PATH="$PATH:/Applications/Visual Studio Code.app/Contents/Resources/app/bin"
+
+. "$HOME/.local/bin/env"
