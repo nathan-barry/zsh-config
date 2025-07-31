@@ -4,7 +4,7 @@ alias utcs2="ssh nathanb@descartes.cs.utexas.edu"
 
 # New daily note
 function daily() {
-    cd ~/Notes/daily
+    cd ~/Notes
     if [ ! -e "$(date +"%Y-%m-%d").md" ]; then
         echo "# $(date +"%Y-%m-%d")" > "$(date +"%Y-%m-%d").md"
         echo "File created successfully."
@@ -22,11 +22,10 @@ function nb() {
     fi
 
     if [[ ! -f "$file" ]]; then
-        echo '{"cells":[],"metadata":{},"nbformat":4,"nbformat_minor":4}' > "$file"
+        python -c "import json; data = {'cells': [], 'metadata': {}, 'nbformat': 4, 'nbformat_minor': 4}; open('$file', 'w').write(json.dumps(data))"
     fi
 
-    # Run with uv since it is superior
-    uv run --with jupyter jupyter lab "$file"
+    jupyter notebook "$file"
 }
 
 # Open project
@@ -34,7 +33,7 @@ function cdf() {
   if [[ $# -eq 1 ]]; then
       selected=$1
   else
-      selected=$(find ~/Code ~/Code/archive ~/Notes -mindepth 1 -maxdepth 1 -type d | fzf)
+      selected=$(find ~/Code ~/Code/archive -mindepth 1 -maxdepth 1 -type d | fzf)
   fi
 
   if [[ -z $selected ]]; then
@@ -53,5 +52,3 @@ neofetch
 # Path stuff
 export PATH="$PATH:/usr/local/bin/code"
 export PATH="$PATH:/Applications/Visual Studio Code.app/Contents/Resources/app/bin"
-
-. "$HOME/.local/bin/env"
